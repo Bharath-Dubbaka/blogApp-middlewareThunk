@@ -2,6 +2,7 @@
 // import './App.css';
 
 import PostLists from "./PostLists";
+import '../style/App.css'
 
 function App() {
   return (

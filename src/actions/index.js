@@ -1,20 +1,29 @@
 import jsonPlaceholder from "../apis/jsonPlaceholder";
 
+export const fetchPostsAndUser = () => {
+  return async (dispatch, getState) => {
+    await dispatch(fetchPosts());
+    const userIds = [];
+    console.log(getState());
+    getState().postsReducer.forEach((current) => {
+      if (!userIds.includes(current.userId)) {
+        userIds.push(current.userId);
+        dispatch(fetchUser(current.userId));
+        console.log(userIds);
+      }
+    });
+  };
+};
+
 export const fetchPosts = (data) => {
   return async (dispatch, getState) => {
-    const res = await jsonPlaceholder.get(data);
+    const res = await jsonPlaceholder.get("/posts");
 
     dispatch({
       type: "FETCH_POSTS",
       payload: res.data,
     });
   };
-
-  //   dispatchEvent()
-  //   return {
-  //     type: "FETCH_POSTS",
-  //     payload: res,
-  //   };
 };
 
 export const fetchUser = (id) => {
